@@ -22,16 +22,6 @@
             }
         },
         "parameters": {
-            "UserId": {
-                "description": "An ID representing a specific user",
-                "required": true,
-                "in": "path",
-                "schema": {
-                    "type": "string"
-                },
-                "example": "3ef45345-cbdd-49ad-b5d4-f88868f16686",
-                "name": "userId"
-            },
             "ChatId": {
                 "description": "An ID representing a specific chat",
                 "required": true,
@@ -41,9 +31,121 @@
                 },
                 "example": "19:3ef45345-cbdd-49ad-b5d4-f88868f16686_540796a5-d5f7-402f-8cb8-01135d3b25ef@unq.gbl.spaces",
                 "name": "chatId"
-            }
+            },
+            "GroupId": {
+                "description": "An ID representing a specific group or team",
+                "required": "true",
+                "in": "path",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "0122cb60-e1a4-448d-be6c-6eb6c0f25283",
+                "name": "groupId"
+            },
+            "UserId": {
+                "description": "An ID representing a specific user",
+                "required": true,
+                "in": "path",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "3ef45345-cbdd-49ad-b5d4-f88868f16686",
+                "name": "userId"
+            }            
         },
         "schemas": {
+            "ChatMembers": {
+                "type": "object",
+                "properties": {
+                    "@odata.context": {
+                        "type": "string"
+                    },
+                    "@odata.count": {
+                        "type": "integer"
+                    },
+                    "value": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "@odata.type": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "roles": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }                                    
+                                },
+                                "displayName": {
+                                    "type": "string"
+                                },
+                                "visibleHistoryStartDateTime": {
+                                    "type": "string"
+                                },
+                                "userId": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                },
+                                "tenantId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "Channels": {
+                "type": "object",
+                "properties": {
+                    "@odata.context": {
+                        "type": "string"
+                    },
+                    "@odata.count": {
+                        "type": "integer"
+                    },
+                    "value": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"                                    
+                                },
+                                "createdDateTime": {
+                                    "type": "string"
+                                },
+                                "displayName": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "isFavoriteByDefault": {
+                                    "type": "boolean"
+                                },
+                                "email": {
+                                    "type": "string"
+                                },
+                                "tenantId": {
+                                    "type": "string"
+                                },
+                                "webUrl": {
+                                    "type": "string"
+                                },
+                                "membershipType": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "JoinedTeams": {
                 "type": "object",
                 "properties": {
@@ -743,6 +845,57 @@
                     },
                     {
                         "$ref": "#/components/parameters/ChatId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/users/{userId}/chats/{chatId}/members": {
+            "get": {
+                "summary": "List Chat Members",
+                "description": "List members in a specific chat for a specific user",
+                "operationId": "listChatMembers",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChatMembers"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/UserId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ChatId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/teams/{groupId}/channels": {
+            "get": {
+                "summary": "List Team Channels",
+                "description": "List channels in a Team",
+                "operationId": "listTeamChannels",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Channels"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/GroupId"
                     }
                 ]
             }
