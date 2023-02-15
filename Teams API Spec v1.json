@@ -198,7 +198,9 @@
                                 "internalId": {
                                     "type": "string"
                                 },
-            
+                                "isArchived": {
+                                    "type": "boolean"
+                                },
                                 "classification": {
                                     "type": "string"
                                 },
@@ -210,33 +212,100 @@
                                 },
                                 "webUrl": {
                                     "type": "string"
-                                },
-                                "isArchived": {
-                                    "type": "boolean"
-                                },
+                                },                                
                                 "tenantId": {
                                     "type": "string"
                                 },
                                 "isMembershipLimitedToOwners": {
-                                    "type": "string"
+                                    "type": "boolean"
                                 },
                                 "memberSettings": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                        "allowAddRemoveApps": {
+                                            "type": "boolean"
+                                        },
+                                        "allowCreatePrivateChannels": {
+                                            "type": "boolean"
+                                        },
+                                        "allowCreateUpdateChannels": {
+                                            "type": "boolean"
+                                        },
+                                        "allowCreateUpdateRemoveConnectors": {
+                                            "type": "boolean"
+                                        },
+                                        "allowCreateUpdateRemoveTabs": {
+                                            "type": "boolean"
+                                        },
+                                        "allowDeleteChannels": {
+                                            "type": "boolean"
+                                        }
+                                    }
                                 },
                                 "guestSettings": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                        "allowCreateUpdateChannels": {
+                                            "type": "boolean"
+                                        },
+                                        "allowDeleteChannels": {
+                                            "type": "boolean"
+                                        }
+                                    }
                                 },
                                 "messagingSettings": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                        "allowChannelMentions": {
+                                            "type": "boolean"
+                                        },
+                                        "allowOwnerDeleteMessages": {
+                                            "type": "boolean"
+                                        },
+                                        "allowTeamMentions": {
+                                            "type": "boolean"
+                                        },
+                                        "allowUserDeleteMessages": {
+                                            "type": "boolean"
+                                        },
+                                        "allowUserEditMessages": {
+                                            "type": "boolean"
+                                        }
+                                    }
                                 },
                                 "funSettings": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                        "allowCustomMemes": {
+                                            "type": "boolean"
+                                        },
+                                        "allowGiphy": {
+                                            "type": "boolean"
+                                        },
+                                        "allowStickersAndMemes": {
+                                            "type": "boolean"
+                                        },
+                                        "giphyContentRating": {
+                                            "type": "string"
+                                        }
+                                    }
                                 },
                                 "discoverySettings": {
                                     "type": "string"
                                 },
                                 "summary": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                        "guestsCount": {
+                                            "type": "integer"
+                                        },
+                                        "membersCount": {
+                                            "type": "integer"
+                                        },
+                                        "ownersCount": {
+                                            "type": "integer"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1344,6 +1413,30 @@
                     },
                     {
                         "$ref": "#/components/parameters/ChannelId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/users/{userId}/joinedTeams": {
+            "get": {
+                "summary": "List Joined Teams For User",
+                "description": "List information about teams a specific user has joined",
+                "operationId": "listJoinedTeamsForUser",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/JoinedTeams"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/UserId"
                     }
                 ]
             }
