@@ -22,6 +22,16 @@
             }
         },
         "parameters": {
+            "ChannelId": {
+                "description": "An ID representing a specific channel in a team",
+                "required": true,
+                "in": "path",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "19:f1cefb1b87e147f9896cc3fa7f0b9ef6@thread.tacv2",
+                "name": "channelId"
+            },
             "ChatId": {
                 "description": "An ID representing a specific chat",
                 "required": true,
@@ -41,6 +51,16 @@
                 },
                 "example": "0122cb60-e1a4-448d-be6c-6eb6c0f25283",
                 "name": "groupId"
+            },
+            "MessageId": {
+                "description": "An ID representing a specific message",
+                "required": true,
+                "in": "path",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "1676411314993",
+                "name": "messageId"
             },
             "UserId": {
                 "description": "An ID representing a specific user",
@@ -100,6 +120,38 @@
                     }
                 }
             },
+            "Channel": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "createdDateTime": {
+                        "type": "string"
+                    },
+                    "displayName": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "isFavoriteByDefault": {
+                        "type": "boolean"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "tenantId": {
+                        "type": "string"
+                    },
+                    "webUrl": {
+                        "type": "string"
+                    },
+                    "membershipType": {
+                        "type": "string"
+                    }
+                }
+            },
             "Channels": {
                 "type": "object",
                 "properties": {
@@ -112,36 +164,7 @@
                     "value": {
                         "type": "array",
                         "items": {
-                            "type": "object",
-                            "properties": {
-                                "id": {
-                                    "type": "string"                                    
-                                },
-                                "createdDateTime": {
-                                    "type": "string"
-                                },
-                                "displayName": {
-                                    "type": "string"
-                                },
-                                "description": {
-                                    "type": "string"
-                                },
-                                "isFavoriteByDefault": {
-                                    "type": "boolean"
-                                },
-                                "email": {
-                                    "type": "string"
-                                },
-                                "tenantId": {
-                                    "type": "string"
-                                },
-                                "webUrl": {
-                                    "type": "string"
-                                },
-                                "membershipType": {
-                                    "type": "string"
-                                }
-                            }
+                            "$ref": "#/components/schemas/Channel"
                         }
                     }
                 }
@@ -245,8 +268,7 @@
                                 },
                                 "messageType": {
                                     "type": "string"
-                                },
-    
+                                },    
                                 "createdDateTime": {
                                     "type": "string"
                                 },
@@ -278,13 +300,118 @@
                                     "type": "string"
                                 },
                                 "channelIdentity": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                        "teamId": {
+                                            "type": "string"
+                                        },
+                                        "channelId": {
+                                            "type": "string"
+                                        }
+                                    }
                                 },
                                 "policyViolation": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                        "dlpAction": {
+                                            "type": "string"
+                                        },
+                                        "justificationText": {
+                                            "type": "string"
+                                        },
+                                        "policyTip": {
+                                            "type": "object",
+                                            "properties": {
+                                                "complianceUrl": {
+                                                    "type": "string"
+                                                },
+                                                "generalText": {
+                                                    "type": "string"
+                                                },
+                                                "matchedConditionDescriptions": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "userAction": {
+                                            "type": "string"
+                                        },
+                                        "verdictDetails": {
+                                            "type": "string"
+                                        }
+                                    }
                                 },
                                 "eventDetail": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                        "@odata.type": {
+                                            "type": "string"
+                                        },
+                                        "visibleHistoryStartDateTime": {
+                                            "type": "string"
+                                        },
+                                        "members": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "displayName": {
+                                                        "type": "string"
+                                                    },
+                                                    "userIdentityType": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "initiator": {
+                                            "type": "object",
+                                            "properties": {
+                                                "device": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "displayName": {
+                                                            "type": "string"
+                                                        },
+                                                        "id": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                },
+                                                "user": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "displayName": {
+                                                            "type": "string"
+                                                        },
+                                                        "id": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                },
+                                                "application": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string"
+                                                        },
+                                                        "displayName": {
+                                                            "type": "string"
+                                                        },
+                                                        "applicationIdentityType": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 },
                                 "from": {
                                     "type": "object",
@@ -428,7 +555,96 @@
                                     }
                                 }
                             }
-                        }                        
+                        }
+                    }
+                }
+            },          
+            "PrimaryChannel": {
+                "type": "object",
+                "properties": {
+                    "@odata.context": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "createdDateTime": {
+                        "type": "string"
+                    },
+                    "displayName": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "isFavoriteByDefault": {
+                        "type": "boolean"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "webUrl": {
+                        "type": "string"
+                    },
+                    "membershipType": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Tabs": {
+                "type": "object",
+                "properties": {
+                    "@odata.context": {
+                        "type": "string"
+                    },
+                    "@odata.count": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "displayName": {
+                                    "type": "string"
+                                },
+                                "webUrl": {
+                                    "type": "string"
+                                },
+                                "configuration": {
+                                    "type": "object",
+                                    "properties": {
+                                        "entityId": {
+                                            "type": "string"
+                                        },
+                                        "contentUrl": {
+                                            "type": "string"
+                                        },
+                                        "removeUrl": {
+                                            "type": "string"
+                                        },
+                                        "websiteUrl": {
+                                            "type": "string"
+                                        },
+                                        "wikiTabId@odata.type": {
+                                            "type": "string"
+                                        },
+                                        "wikiTabId": {
+                                            "type": "integer"
+                                        },
+                                        "wikiDefaultTab": {
+                                            "type": "boolean"
+                                        },
+                                        "hasContent": {
+                                            "type": "boolean"
+                                        }
+                                    }                                    
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -573,6 +789,52 @@
                                 }                    
                             }
                         }
+                    }
+                }
+            },
+            "TeamMembers": {
+                "type": "object",
+                "properties": {
+                    "@odata.context": {
+                        "type": "string"
+                    },
+                    "@odata.count": {
+                        "type": "integer"
+                    },
+                    "value": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "@odata.type": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "roles": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "displayName": {
+                                    "type": "string"
+                                },
+                                "visibleHistoryStartDateTime": {
+                                    "type": "string"
+                                },
+                                "userId": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                },
+                                "tenantId": {
+                                    "type": "string"
+                                }
+                            }
+                        }                        
                     }
                 }
             },
@@ -896,6 +1158,192 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/GroupId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/teams/{groupId}/members": {
+            "get": {
+                "summary": "List Team Members",
+                "description": "List members in a Team",
+                "operationId": "listTeamMembers",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TeamMembers"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/GroupId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/teams/{groupId}/primaryChannel": {
+            "get": {
+                "summary": "Get Primary Channel",
+                "description": "Get information about the primary channel in a team",
+                "operationId": "listPrimaryChannel",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PrimaryChannel"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/GroupId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/teams/{groupId}/channels/{channelId}/messages": {
+            "get": {
+                "summary": "List Channel Messages",
+                "description": "List messages in a channel",
+                "operationId": "listChannelMessages",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Messages"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/GroupId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ChannelId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/teams/{groupId}/channels/{channelId}/tabs": {
+            "get": {
+                "summary": "List Channel Tabs",
+                "description": "List tabs in a channel",
+                "operationId": "listChannelTabs",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Tabs"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/GroupId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ChannelId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/teams/{groupId}/channels/{channelId}/messages/{messageId}/replies": {
+            "get": {
+                "summary": "List Channel Message Replies",
+                "description": "List replies to a specific message in a channel",
+                "operationId": "listChannelMessageReplies",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Messages"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/GroupId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ChannelId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/MessageId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/teams/{groupId}/channels/{channelId}/members": {
+            "get": {
+                "summary": "List Channel Members",
+                "description": "List members in a specific channel",
+                "operationId": "listChannelMembers",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TeamMembers"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/GroupId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ChannelId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/teams/{groupId}/channels/{channelId}": {
+            "get": {
+                "summary": "List Channel Information",
+                "description": "List information about a specific channel",
+                "operationId": "listChannelInfo",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Channel"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/GroupId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ChannelId"
                     }
                 ]
             }
