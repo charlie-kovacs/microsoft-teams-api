@@ -43,7 +43,7 @@
                 "name": "chatId"
             },
             "GroupId": {
-                "description": "An ID representing a specific group or team",
+                "description": "An ID representing a specific group",
                 "required": "true",
                 "in": "path",
                 "schema": {
@@ -51,6 +51,16 @@
                 },
                 "example": "0122cb60-e1a4-448d-be6c-6eb6c0f25283",
                 "name": "groupId"
+            },
+            "MembershipId": {
+                "description": "An ID representing a member in a team",
+                "required": true,
+                "in": "path",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "MCMjMSMjM2ZjNWY2YTUtNjA1NC00MGE2LTgyODUtNzU4ZjMwM2UzNzVhIyMwMTIyY2I2MC1lMWE0LTQ0OGQtYmU2Yy02ZWI2YzBmMjUyODMjI2I2N2I2YjA5LTlhNTUtNGM5MS1hMTQ1LTgyZTQwNTNkMTAwMA==",
+                "name": "membershipId"
             },
             "MessageId": {
                 "description": "An ID representing a specific message",
@@ -61,6 +71,16 @@
                 },
                 "example": "1676411314993",
                 "name": "messageId"
+            },
+            "TeamId": {
+                "description": "An ID representing a specific team",
+                "required": true,
+                "in": "path",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "0122cb60-e1a4-448d-be6c-6eb6c0f25283",
+                "name": "teamId"
             },
             "UserId": {
                 "description": "An ID representing a specific user",
@@ -74,6 +94,90 @@
             }            
         },
         "schemas": {
+            "App": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "teamsAppDefinition": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "teamsAppId": {
+                                "type": "string"
+                            },
+                            "displayName": {
+                                "type": "string"
+                            },
+                            "version": {
+                                "type": "string"
+                            },
+                            "publishingState": {
+                                "type": "string"
+                            },
+                            "shortDescription": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "lastModifiedDateTime": {
+                                "type": "string"
+                            },
+                            "createdBy": {
+                                "type": "object",
+                                "properties": {
+                                    "application": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "displayName": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "user": {
+                                        "type": "object",
+                                        "properties": {
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "displayName": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "Apps": {
+                "type": "object",
+                "properties": {
+                    "@odata.context": {
+                        "type": "string"
+                    },
+                    "@odata.count": {
+                        "type": "integer"
+                    },
+                    "value": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/App"
+                        }
+                    }
+                }
+            },
             "ChatMembers": {
                 "type": "object",
                 "properties": {
@@ -165,6 +269,153 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/Channel"
+                        }
+                    }
+                }
+            },
+            "DriveItem": {
+                "type": "object",
+                "properties": {
+                    "createdDateTime": {
+                        "type": "string"
+                    },
+                    "eTag": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "lastModifiedDateTime": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "webUrl": {
+                        "type": "string"
+                    },
+                    "cTag": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "type": "integer"
+                    },
+                    "createdBy": {
+                        "type": "object",
+                        "properties": {
+                            "application": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "displayName": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "user": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "displayName": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "lastModifiedBy": {
+                        "type": "object",
+                        "properties": {
+                            "application": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "displayName": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "user": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "displayName": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "parentReference": {
+                        "type": "object",
+                        "properties": {
+                            "driveType": {
+                                "type": "string"
+                            },
+                            "driveId": {
+                                "type": "string"
+                            },
+                            "id": {
+                                "type": "string"
+                            },
+                            "path": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "fileSystemInfo": {
+                        "type": "object",
+                        "properties": {
+                            "createdDateTime": {
+                                "type": "string"
+                            },
+                            "lastModifiedDateTime": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "folder": {
+                        "type": "object",
+                        "properties": {
+                            "childCount": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "shared": {
+                        "type": "object",
+                        "properties": {
+                            "scope": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "DriveItems": {
+                "type": "object",
+                "properties": {
+                    "@odata.context": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DriveItem"
                         }
                     }
                 }
@@ -291,7 +542,12 @@
                                     }
                                 },
                                 "discoverySettings": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "properties": {
+                                        "showInTeamsSearchAndSuggestions": {
+                                            "type": "boolean"
+                                        }
+                                    }
                                 },
                                 "summary": {
                                     "type": "object",
@@ -861,6 +1117,38 @@
                     }
                 }
             },
+            "TeamMember": {
+                "type": "object",
+                "properties": {
+                    "@odata.type": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "displayName": {
+                        "type": "string"
+                    },
+                    "visibleHistoryStartDateTime": {
+                        "type": "string"
+                    },
+                    "userId": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "tenantId": {
+                        "type": "string"
+                    }
+                } 
+            },
             "TeamMembers": {
                 "type": "object",
                 "properties": {
@@ -873,37 +1161,8 @@
                     "value": {
                         "type": "array",
                         "items": {
-                            "type": "object",
-                            "properties": {
-                                "@odata.type": {
-                                    "type": "string"
-                                },
-                                "id": {
-                                    "type": "string"
-                                },
-                                "roles": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                },
-                                "displayName": {
-                                    "type": "string"
-                                },
-                                "visibleHistoryStartDateTime": {
-                                    "type": "string"
-                                },
-                                "userId": {
-                                    "type": "string"
-                                },
-                                "email": {
-                                    "type": "string"
-                                },
-                                "tenantId": {
-                                    "type": "string"
-                                }
-                            }
-                        }                        
+                            "$ref": "#/components/schemas/TeamMember"
+                        }                                                   
                     }
                 }
             },
@@ -1255,6 +1514,33 @@
                 ]
             }
         },
+        "/v1.0/teams/{groupId}/members/{membershipId}": {
+            "get": {
+                "summary": "Get Team Member",
+                "description": "Get information about a member in a Team",
+                "operationId": "getTeamMember",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TeamMember"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/GroupId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/MembershipId"
+                    }
+                ]
+            }
+        },
         "/v1.0/teams/{groupId}/primaryChannel": {
             "get": {
                 "summary": "Get Primary Channel",
@@ -1437,6 +1723,54 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/UserId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/groups/{teamId}/drive/root/children": {
+            "get": {
+                "summary": "List Items In A Team Drive",
+                "description": "List information about files in a team drive",
+                "operationId": "listTeamDriveItems",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DriveItems"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TeamId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/teams/{teamId}/installedApps?$expand=teamsAppDefinition": {
+            "get": {
+                "summary": "List Apps In A Team",
+                "description": "List information about apps in a team",
+                "operationId": "listTeamApps",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Apps"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TeamId"
                     }
                 ]
             }
