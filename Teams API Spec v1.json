@@ -273,6 +273,52 @@
                     }
                 }
             },
+            "CreateChannel": {
+                "type": "object",
+                "properties": {
+                    "displayName": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "membershipType": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateChannelResponse": {
+                "type": "object",
+                "properties": {
+                    "@odata.context": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "createdDateTime": {
+                        "type": "string"
+                    },
+                    "displayName": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "isFavoriteByDefault": {
+                        "type": "boolean"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "webUrl": {
+                        "type": "string"
+                    },
+                    "membershipType": {
+                        "type": "string"
+                    }
+                }
+            },
             "CreateGroupChat": {
                 "type": "object",
                 "properties": {
@@ -1918,8 +1964,38 @@
                     }                    
                 },
                 "responses": {
-                    "200": {
+                    "202": {
                         "description": "SUCCESS"
+                    }
+                }
+            }
+        },
+        "/v1.0/teams/{teamId}/channels":
+        {
+            "post": {
+                "summary": "Create Channel",
+                "description": "Create a new channel",
+                "operationId": "createChannel",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateChannel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "SUCCESS",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateChannelResponse"
+                                }
+                            }
+                        }
                     }
                 }
             }
