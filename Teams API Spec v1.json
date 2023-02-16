@@ -1797,6 +1797,24 @@
                         "$ref": "#/components/parameters/MembershipId"
                     }
                 ]
+            },
+            "delete": {
+                "summary": "Remove Member From Team",
+                "description": "Remove a member from a team",
+                "operationId": "removeTeamMember",
+                "responses": {
+                    "204": {
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/GroupId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/MembershipId"
+                    }
+                ]
             }
         },
         "/v1.0/teams/{groupId}/primaryChannel": {
@@ -2106,8 +2124,6 @@
                 ]
             }
         },
-
-
         "/v1.0/chats": {
             "post": {
                 "summary": "Create Chat",
@@ -2355,6 +2371,43 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/ChatId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/chats/{chatId}/members/{membershipId}": {
+            "delete": {
+                "summary": "Remove Member From Chat",
+                "description": "Remove a member from a chat",
+                "operationId": "removeChatMember",
+                "responses": {
+                    "204": {
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ChatId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/MembershipId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/groups/{teamId}": {
+            "delete": {
+                "summary": "Delete Team",
+                "description": "Delete a team",
+                "operationId": "deleteTeam",
+                "responses": {
+                    "204": {
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TeamId"
                     }
                 ]
             }
