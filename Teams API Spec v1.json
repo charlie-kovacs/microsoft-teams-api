@@ -178,6 +178,14 @@
                     }
                 }
             },
+            "ArchiveTeam": {
+                "type": "object",
+                "properties": {
+                    "shouldSetSpoSiteReadOnlyForMembers": {
+                        "type": "boolean"
+                    }
+                }
+            },
             "ChatMembers": {
                 "type": "object",
                 "properties": {
@@ -270,6 +278,26 @@
                         "items": {
                             "$ref": "#/components/schemas/Channel"
                         }
+                    }
+                }
+            },
+            "CloneTeam": {
+                "type": "object",
+                "properties": {
+                    "displayName": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "mailNickname": {
+                        "type": "string"
+                    },
+                    "partsToClone": {
+                        "type": "string"
+                    },
+                    "visibility": {
+                        "type": "string"
                     }
                 }
             },
@@ -1997,7 +2025,84 @@
                             }
                         }
                     }
-                }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TeamId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/teams/{teamId}/clone":
+        {
+            "post": {
+                "summary": "Clone Team",
+                "description": "Clone a team",
+                "operationId": "cloneTeam",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/CloneTeam"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TeamId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/teams/{teamId}/archive": {
+            "post": {
+                "summary": "Archive Team",
+                "description": "Archive a team",
+                "operationId": "archiveTeam",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/ArchiveTeam"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TeamId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/teams/{teamId}/unarchive": {
+            "post": {
+                "summary": "Unarchive Team",
+                "description": "Unarchive a team",
+                "operationId": "unarchiveTeam",                
+                "responses": {
+                    "202": {
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TeamId"
+                    }
+                ]
             }
         }
     }
