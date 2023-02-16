@@ -94,6 +94,78 @@
             }            
         },
         "schemas": {
+            "AddChatMember": {
+                "type": "object",
+                "properties": {
+                    "@odata.type": {
+                        "type": "string"
+                    },
+                    "user@odata.bind": {
+                        "type": "string"
+                    },
+                    "visibleHistoryStartDateTime": {
+                        "type": "string"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "AddTeamMember": {
+                "type": "object",
+                "properties": {
+                    "@odata.type": {
+                        "type": "string"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "user@odata.bind": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AddTeamMemberResponse": {
+                "type": "object",
+                "properties": {
+                    "@odata.context": {
+                        "type": "string"
+                    },
+                    "@odata.type": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "displayName": {
+                        "type": "string"
+                    },
+                    "visibleHistoryStartDateTime": {
+                        "type": "string"
+                    },
+                    "userId": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "tenantId": {
+                        "type": "string"
+                    }
+                }
+            },
             "App": {
                 "type": "object",
                 "properties": {
@@ -738,16 +810,205 @@
                     }
                 }
             },
-            "Messages": {
+            "Message": {
                 "type": "object",
                 "properties": {
-                    "@odata.context": {
+                    "id": {
                         "type": "string"
                     },
-                    "@odata.count": {
-                        "type": "integer"
+                    "replyToId": {
+                        "type": "string"
                     },
-                    "value": {
+                    "etag": {
+                        "type": "string"
+                    },
+                    "messageType": {
+                        "type": "string"
+                    },    
+                    "createdDateTime": {
+                        "type": "string"
+                    },
+                    "lastModifiedDateTime": {
+                        "type": "string"
+                    },
+                    "lastEditedDateTime": {
+                        "type": "string"
+                    },
+                    "deletedDateTime": {
+                        "type": "string"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "summary": {
+                        "type": "string"
+                    },
+                    "chatId": {
+                        "type": "string"
+                    },
+                    "importance": {
+                        "type": "string"
+                    },
+                    "locale": {
+                        "type": "string"
+                    },
+                    "webUrl": {
+                        "type": "string"
+                    },
+                    "channelIdentity": {
+                        "type": "object",
+                        "properties": {
+                            "teamId": {
+                                "type": "string"
+                            },
+                            "channelId": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "policyViolation": {
+                        "type": "object",
+                        "properties": {
+                            "dlpAction": {
+                                "type": "string"
+                            },
+                            "justificationText": {
+                                "type": "string"
+                            },
+                            "policyTip": {
+                                "type": "object",
+                                "properties": {
+                                    "complianceUrl": {
+                                        "type": "string"
+                                    },
+                                    "generalText": {
+                                        "type": "string"
+                                    },
+                                    "matchedConditionDescriptions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "userAction": {
+                                "type": "string"
+                            },
+                            "verdictDetails": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "eventDetail": {
+                        "type": "object",
+                        "properties": {
+                            "@odata.type": {
+                                "type": "string"
+                            },
+                            "visibleHistoryStartDateTime": {
+                                "type": "string"
+                            },
+                            "members": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "displayName": {
+                                            "type": "string"
+                                        },
+                                        "userIdentityType": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "initiator": {
+                                "type": "object",
+                                "properties": {
+                                    "device": {
+                                        "type": "object",
+                                        "properties": {
+                                            "displayName": {
+                                                "type": "string"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "user": {
+                                        "type": "object",
+                                        "properties": {
+                                            "displayName": {
+                                                "type": "string"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "application": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "displayName": {
+                                                "type": "string"
+                                            },
+                                            "applicationIdentityType": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "from": {
+                        "type": "object",
+                        "properties": {
+                            "application": {
+                                "type": "string"
+                            },
+                            "device": {
+                                "type": "string"
+                            },
+                            "user": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "displayName": {
+                                        "type": "string"
+                                    },
+                                    "userIdentityType": {
+                                        "type": "string"
+                                    },
+                                    "tenantId": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "body": {
+                        "type": "object",
+                        "properties": {
+                            "contentType": {
+                                "type": "string"
+                            },
+                            "content": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "attachments": {
                         "type": "array",
                         "items": {
                             "type": "object",
@@ -755,166 +1016,51 @@
                                 "id": {
                                     "type": "string"
                                 },
-                                "replyToId": {
+                                "contentType": {
                                     "type": "string"
                                 },
-                                "etag": {
+                                "contentUrl": {
                                     "type": "string"
                                 },
-                                "messageType": {
-                                    "type": "string"
-                                },    
-                                "createdDateTime": {
+                                "content": {
                                     "type": "string"
                                 },
-                                "lastModifiedDateTime": {
+                                "name": {
                                     "type": "string"
                                 },
-                                "lastEditedDateTime": {
+                                "thumbnailUrl": {
                                     "type": "string"
                                 },
-                                "deletedDateTime": {
+                                "teamsAppId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "mentions": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "mentionText": {
                                     "type": "string"
                                 },
-                                "subject": {
-                                    "type": "string"
-                                },
-                                "summary": {
-                                    "type": "string"
-                                },
-                                "chatId": {
-                                    "type": "string"
-                                },
-                                "importance": {
-                                    "type": "string"
-                                },
-                                "locale": {
-                                    "type": "string"
-                                },
-                                "webUrl": {
-                                    "type": "string"
-                                },
-                                "channelIdentity": {
-                                    "type": "object",
-                                    "properties": {
-                                        "teamId": {
-                                            "type": "string"
-                                        },
-                                        "channelId": {
-                                            "type": "string"
-                                        }
-                                    }
-                                },
-                                "policyViolation": {
-                                    "type": "object",
-                                    "properties": {
-                                        "dlpAction": {
-                                            "type": "string"
-                                        },
-                                        "justificationText": {
-                                            "type": "string"
-                                        },
-                                        "policyTip": {
-                                            "type": "object",
-                                            "properties": {
-                                                "complianceUrl": {
-                                                    "type": "string"
-                                                },
-                                                "generalText": {
-                                                    "type": "string"
-                                                },
-                                                "matchedConditionDescriptions": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        "userAction": {
-                                            "type": "string"
-                                        },
-                                        "verdictDetails": {
-                                            "type": "string"
-                                        }
-                                    }
-                                },
-                                "eventDetail": {
-                                    "type": "object",
-                                    "properties": {
-                                        "@odata.type": {
-                                            "type": "string"
-                                        },
-                                        "visibleHistoryStartDateTime": {
-                                            "type": "string"
-                                        },
-                                        "members": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "string"
-                                                    },
-                                                    "displayName": {
-                                                        "type": "string"
-                                                    },
-                                                    "userIdentityType": {
-                                                        "type": "string"
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        "initiator": {
-                                            "type": "object",
-                                            "properties": {
-                                                "device": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "displayName": {
-                                                            "type": "string"
-                                                        },
-                                                        "id": {
-                                                            "type": "string"
-                                                        }
-                                                    }
-                                                },
-                                                "user": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "displayName": {
-                                                            "type": "string"
-                                                        },
-                                                        "id": {
-                                                            "type": "string"
-                                                        }
-                                                    }
-                                                },
-                                                "application": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "id": {
-                                                            "type": "string"
-                                                        },
-                                                        "displayName": {
-                                                            "type": "string"
-                                                        },
-                                                        "applicationIdentityType": {
-                                                            "type": "string"
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                },
-                                "from": {
+                                "mentioned": {
                                     "type": "object",
                                     "properties": {
                                         "application": {
                                             "type": "string"
                                         },
                                         "device": {
+                                            "type": "string"
+                                        },
+                                        "conversation": {
+                                            "type": "string"
+                                        },
+                                        "tag": {
                                             "type": "string"
                                         },
                                         "user": {
@@ -928,128 +1074,57 @@
                                                 },
                                                 "userIdentityType": {
                                                     "type": "string"
-                                                },
-                                                "tenantId": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        }
-                                    }
-                                },
-                                "body": {
-                                    "type": "object",
-                                    "properties": {
-                                        "contentType": {
-                                            "type": "string"
-                                        },
-                                        "content": {
-                                            "type": "string"
-                                        }
-                                    }
-                                },
-                                "attachments": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "id": {
-                                                "type": "string"
-                                            },
-                                            "contentType": {
-                                                "type": "string"
-                                            },
-                                            "contentUrl": {
-                                                "type": "string"
-                                            },
-                                            "content": {
-                                                "type": "string"
-                                            },
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "thumbnailUrl": {
-                                                "type": "string"
-                                            },
-                                            "teamsAppId": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                },
-                                "mentions": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "id": {
-                                                "type": "integer"
-                                            },
-                                            "mentionText": {
-                                                "type": "string"
-                                            },
-                                            "mentioned": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "application": {
-                                                        "type": "string"
-                                                    },
-                                                    "device": {
-                                                        "type": "string"
-                                                    },
-                                                    "conversation": {
-                                                        "type": "string"
-                                                    },
-                                                    "tag": {
-                                                        "type": "string"
-                                                    },
-                                                    "user": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "id": {
-                                                                "type": "string"
-                                                            },
-                                                            "displayName": {
-                                                                "type": "string"
-                                                            },
-                                                            "userIdentityType": {
-                                                                "type": "string"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                },
-                                "reactions": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "reactionType": {
-                                                "type": "string"
-                                            },
-                                            "createdDateTime": {
-                                                "type": "string"
-                                            },
-                                            "user": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "string"
-                                                    },
-                                                    "displayName": {
-                                                        "type": "string"
-                                                    },
-                                                    "userIdentityType": {
-                                                        "type": "string"
-                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 }
                             }
+                        }
+                    },
+                    "reactions": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "reactionType": {
+                                    "type": "string"
+                                },
+                                "createdDateTime": {
+                                    "type": "string"
+                                },
+                                "user": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "displayName": {
+                                            "type": "string"
+                                        },
+                                        "userIdentityType": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "Messages": {
+                "type": "object",
+                "properties": {
+                    "@odata.context": {
+                        "type": "string"
+                    },
+                    "@odata.count": {
+                        "type": "integer"
+                    },
+                    "value": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Message"
                         }
                     }
                 }
@@ -1083,6 +1158,19 @@
                     },
                     "membershipType": {
                         "type": "string"
+                    }
+                }
+            },
+            "SendMessage": {
+                "type": "object",
+                "properties": {
+                    "body": {
+                        "type": "object",
+                        "properties": {
+                            "content": {
+                                "type": "string"
+                            }
+                        }
                     }
                 }
             },
@@ -1760,6 +1848,41 @@
                         "$ref": "#/components/parameters/ChannelId"
                     }
                 ]
+            },
+            "post": {
+                "summary": "Send Channel Message",
+                "description": "Send a message in a channel",
+                "operationId": "sendChannelMessage",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SendMessage"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "SUCCESS",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/GroupId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ChannelId"
+                    }
+                ]
             }
         },
         "/v1.0/teams/{groupId}/channels/{channelId}/tabs": {
@@ -1804,6 +1927,44 @@
                             }
                         },
                         "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/GroupId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ChannelId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/MessageId"
+                    }
+                ]
+            },
+            "post": {
+                "summary": "Reply to Channel Message",
+                "description": "Reply to a message in a channel",
+                "operationId": "replyToChannelMessage",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SendMessage"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "SUCCESS",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
                     }
                 },
                 "parameters": [
@@ -1998,8 +2159,7 @@
                 }
             }
         },
-        "/v1.0/teams/{teamId}/channels":
-        {
+        "/v1.0/teams/{teamId}/channels": {
             "post": {
                 "summary": "Create Channel",
                 "description": "Create a new channel",
@@ -2033,8 +2193,7 @@
                 ]
             }
         },
-        "/v1.0/teams/{teamId}/clone":
-        {
+        "/v1.0/teams/{teamId}/clone": {
             "post": {
                 "summary": "Clone Team",
                 "description": "Clone a team",
@@ -2101,6 +2260,101 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/TeamId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/teams/{teamId}/members": {
+            "post": {
+                "summary": "Add Member to Team",
+                "description": "Add a member to a team",
+                "operationId": "addMemberToTeam",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddTeamMember"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "SUCCESS",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddTeamMemberResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TeamId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/chats/{chatId}/members": {
+            "post": {
+                "summary": "Add Member to Chat",
+                "description": "Add a member to a chat",
+                "operationId": "addMemberToChat",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddChatMember"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ChatId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/chats/{chatId}/messages": {
+            "post": {
+                "summary": "Send Chat Message",
+                "description": "Send a message in a chat",
+                "operationId": "sendChatMessage",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SendMessage"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "SUCCESS",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ChatId"
                     }
                 ]
             }
