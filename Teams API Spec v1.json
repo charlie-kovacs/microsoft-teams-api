@@ -273,6 +273,102 @@
                     }
                 }
             },
+            "CreateGroupChat": {
+                "type": "object",
+                "properties": {
+                    "chatType": {
+                        "type": "string"
+                    },
+                    "topic": {
+                        "type": "string"
+                    },
+                    "members": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "@odata.type": {
+                                    "type": "string"
+                                },
+                                "roles": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }                 
+                                },
+                                "user@odata.bind": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }       
+                }
+            },
+            "CreateOneOnOneChat": {
+                "type": "object",
+                "properties": {
+                    "chatType": {
+                        "type": "string"
+                    },
+                    "members": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "@odata.type": {
+                                    "type": "string"
+                                },
+                                "roles": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }                 
+                                },
+                                "user@odata.bind": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }                    
+                }
+            },
+            "CreateChatResponse": {
+                "type": "object",
+                "properties": {
+                    "@odata.context": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "topic": {
+                        "type": "string"
+                    },
+                    "createdDateTime": {
+                        "type": "string"
+                    },
+                    "lastUpdatedDateTime": {
+                        "type": "string"
+                    },
+                    "chatType": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateTeam": {
+                "type": "object",
+                "properties": {
+                    "template@odata.bind": {
+                        "type": "string"
+                    },
+                    "displayName": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                }
+            },
             "DriveItem": {
                 "type": "object",
                 "properties": {
@@ -1773,6 +1869,59 @@
                         "$ref": "#/components/parameters/TeamId"
                     }
                 ]
+            }
+        },
+
+
+        "/v1.0/chats": {
+            "post": {
+                "summary": "Create Chat",
+                "description": "Create a new chat conversation",
+                "operationId": "createChat",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateGroupChat"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateChatResponse"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                }
+            }
+        },
+        "/v1.0/teams/": {
+            "post": {
+                "summary": "Create Team",
+                "description": "Create a new team",
+                "operationId": "createTeam",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTeam"
+                            }
+                        }
+                    }                    
+                },
+                "responses": {
+                    "200": {
+                        "description": "SUCCESS"
+                    }
+                }
             }
         }
     }
