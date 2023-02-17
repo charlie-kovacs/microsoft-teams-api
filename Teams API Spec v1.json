@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Graph1",
+        "title": "Microsoft Graph - Teams",
         "version": "1.0.0"
     },
     "servers": [
@@ -41,17 +41,7 @@
                 },
                 "example": "19:3ef45345-cbdd-49ad-b5d4-f88868f16686_540796a5-d5f7-402f-8cb8-01135d3b25ef@unq.gbl.spaces",
                 "name": "chatId"
-            },
-            "GroupId": {
-                "description": "An ID representing a specific group",
-                "required": "true",
-                "in": "path",
-                "schema": {
-                    "type": "string"
-                },
-                "example": "0122cb60-e1a4-448d-be6c-6eb6c0f25283",
-                "name": "groupId"
-            },
+            },            
             "MembershipId": {
                 "description": "An ID representing a member in a team",
                 "required": true,
@@ -1565,6 +1555,195 @@
         }
     },
     "paths": {
+        "/v1.0/chats": {
+            "post": {
+                "summary": "Create Chat",
+                "description": "Create a new chat conversation",
+                "operationId": "createChat",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateGroupChat"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateChatResponse"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                }
+            }
+        },
+        "/v1.0/chats/{chatId}/members": {
+            "post": {
+                "summary": "Add Member to Chat",
+                "description": "Add a member to a chat",
+                "operationId": "addMemberToChat",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddChatMember"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ChatId"
+                    }
+                ]
+            }
+        },        
+        "/v1.0/chats/{chatId}/members/{membershipId}": {
+            "delete": {
+                "summary": "Remove Member From Chat",
+                "description": "Remove a member from a chat",
+                "operationId": "removeChatMember",
+                "responses": {
+                    "204": {
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ChatId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/MembershipId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/chats/{chatId}/messages": {
+            "post": {
+                "summary": "Send Chat Message",
+                "description": "Send a message in a chat",
+                "operationId": "sendChatMessage",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SendMessage"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "SUCCESS",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ChatId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/groups": {
+            "get": {
+                "summary": "List Teams",
+                "description": "List information about teams",
+                "operationId": "listTeams",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Teams"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                }
+            }
+        },
+        "/v1.0/groups/{teamId}": {
+            "delete": {
+                "summary": "Delete Team",
+                "description": "Delete a team",
+                "operationId": "deleteTeam",
+                "responses": {
+                    "204": {
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TeamId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/groups/{teamId}/drive/root/children": {
+            "get": {
+                "summary": "List Items In A Team Drive",
+                "description": "List information about files in a team drive",
+                "operationId": "listTeamDriveItems",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DriveItems"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TeamId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/me/joinedTeams": {
+            "get": {
+                "summary": "List Joined Teams",
+                "description": "List teams to which the current user is joined",
+                "operationId": "listJoinedTeams",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/JoinedTeams"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                }
+            }
+        },
         "/v1.0/users": {
             "get": {
                 "summary": "List Users",
@@ -1606,44 +1785,6 @@
                         "$ref": "#/components/parameters/UserId"
                     }
                 ]
-            }
-        },
-        "/v1.0/groups": {
-            "get": {
-                "summary": "List Teams",
-                "description": "List information about teams",
-                "operationId": "listTeams",
-                "responses": {
-                    "200": {
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Teams"
-                                }
-                            }
-                        },
-                        "description": "SUCCESS"
-                    }
-                }
-            }
-        },
-        "/v1.0/me/joinedTeams": {
-            "get": {
-                "summary": "List Joined Teams",
-                "description": "List teams to which the current user is joined",
-                "operationId": "listJoinedTeams",
-                "responses": {
-                    "200": {
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/JoinedTeams"
-                                }
-                            }
-                        },
-                        "description": "SUCCESS"
-                    }
-                }
             }
         },
         "/v1.0/users/{userId}/chats": {
@@ -1724,11 +1865,84 @@
                 ]
             }
         },
-        "/v1.0/teams/{groupId}/channels": {
+        "/v1.0/users/{userId}/joinedTeams": {
+            "get": {
+                "summary": "List Joined Teams For User",
+                "description": "List information about teams a specific user has joined",
+                "operationId": "listJoinedTeamsForUser",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/JoinedTeams"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/UserId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/teams/": {
+            "post": {
+                "summary": "Create Team",
+                "description": "Create a new team",
+                "operationId": "createTeam",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTeam"
+                            }
+                        }
+                    }                    
+                },
+                "responses": {
+                    "202": {
+                        "description": "SUCCESS"
+                    }
+                }
+            }
+        },
+        "/v1.0/teams/{teamId}/archive": {
+            "post": {
+                "summary": "Archive Team",
+                "description": "Archive a team",
+                "operationId": "archiveTeam",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/ArchiveTeam"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TeamId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/teams/{teamId}/channels": {
             "get": {
                 "summary": "List Team Channels",
                 "description": "List channels in a Team",
-                "operationId": "listTeamChannels",
+                "operationId": "listChannels",
                 "responses": {
                     "200": {
                         "content": {
@@ -1743,16 +1957,75 @@
                 },
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/GroupId"
+                        "$ref": "#/components/parameters/TeamId"
+                    }
+                ]
+            },
+            "post": {
+                "summary": "Create Channel",
+                "description": "Create a new channel",
+                "operationId": "createChannel",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateChannel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "SUCCESS",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateChannelResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TeamId"
                     }
                 ]
             }
         },
-        "/v1.0/teams/{groupId}/members": {
+        "/v1.0/teams/{teamId}/channels/{channelId}": {
             "get": {
-                "summary": "List Team Members",
-                "description": "List members in a Team",
-                "operationId": "listTeamMembers",
+                "summary": "List Channel Information",
+                "description": "List information about a specific channel",
+                "operationId": "listChannelInfo",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Channel"
+                                }
+                            }
+                        },
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TeamId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ChannelId"
+                    }
+                ]
+            }
+        },
+        "/v1.0/teams/{teamId}/channels/{channelId}/members": {
+            "get": {
+                "summary": "List Channel Members",
+                "description": "List members in a specific channel",
+                "operationId": "listChannelMembers",
                 "responses": {
                     "200": {
                         "content": {
@@ -1767,81 +2040,15 @@
                 },
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/GroupId"
-                    }
-                ]
-            }
-        },
-        "/v1.0/teams/{groupId}/members/{membershipId}": {
-            "get": {
-                "summary": "Get Team Member",
-                "description": "Get information about a member in a Team",
-                "operationId": "getTeamMember",
-                "responses": {
-                    "200": {
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TeamMember"
-                                }
-                            }
-                        },
-                        "description": "SUCCESS"
-                    }
-                },
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/GroupId"
+                        "$ref": "#/components/parameters/TeamId"
                     },
                     {
-                        "$ref": "#/components/parameters/MembershipId"
-                    }
-                ]
-            },
-            "delete": {
-                "summary": "Remove Member From Team",
-                "description": "Remove a member from a team",
-                "operationId": "removeTeamMember",
-                "responses": {
-                    "204": {
-                        "description": "SUCCESS"
-                    }
-                },
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/GroupId"
-                    },
-                    {
-                        "$ref": "#/components/parameters/MembershipId"
+                        "$ref": "#/components/parameters/ChannelId"
                     }
                 ]
             }
         },
-        "/v1.0/teams/{groupId}/primaryChannel": {
-            "get": {
-                "summary": "Get Primary Channel",
-                "description": "Get information about the primary channel in a team",
-                "operationId": "listPrimaryChannel",
-                "responses": {
-                    "200": {
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PrimaryChannel"
-                                }
-                            }
-                        },
-                        "description": "SUCCESS"
-                    }
-                },
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/GroupId"
-                    }
-                ]
-            }
-        },
-        "/v1.0/teams/{groupId}/channels/{channelId}/messages": {
+        "/v1.0/teams/{teamId}/channels/{channelId}/messages": {
             "get": {
                 "summary": "List Channel Messages",
                 "description": "List messages in a channel",
@@ -1860,7 +2067,7 @@
                 },
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/GroupId"
+                        "$ref": "#/components/parameters/TeamId"
                     },
                     {
                         "$ref": "#/components/parameters/ChannelId"
@@ -1895,7 +2102,7 @@
                 },
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/GroupId"
+                        "$ref": "#/components/parameters/TeamId"
                     },
                     {
                         "$ref": "#/components/parameters/ChannelId"
@@ -1903,34 +2110,7 @@
                 ]
             }
         },
-        "/v1.0/teams/{groupId}/channels/{channelId}/tabs": {
-            "get": {
-                "summary": "List Channel Tabs",
-                "description": "List tabs in a channel",
-                "operationId": "listChannelTabs",
-                "responses": {
-                    "200": {
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Tabs"
-                                }
-                            }
-                        },
-                        "description": "SUCCESS"
-                    }
-                },
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/GroupId"
-                    },
-                    {
-                        "$ref": "#/components/parameters/ChannelId"
-                    }
-                ]
-            }
-        },
-        "/v1.0/teams/{groupId}/channels/{channelId}/messages/{messageId}/replies": {
+        "/v1.0/teams/{teamId}/channels/{channelId}/messages/{messageId}/replies": {
             "get": {
                 "summary": "List Channel Message Replies",
                 "description": "List replies to a specific message in a channel",
@@ -1949,7 +2129,7 @@
                 },
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/GroupId"
+                        "$ref": "#/components/parameters/TeamId"
                     },
                     {
                         "$ref": "#/components/parameters/ChannelId"
@@ -1987,7 +2167,7 @@
                 },
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/GroupId"
+                        "$ref": "#/components/parameters/TeamId"
                     },
                     {
                         "$ref": "#/components/parameters/ChannelId"
@@ -1998,17 +2178,17 @@
                 ]
             }
         },
-        "/v1.0/teams/{groupId}/channels/{channelId}/members": {
+        "/v1.0/teams/{teamId}/channels/{channelId}/tabs": {
             "get": {
-                "summary": "List Channel Members",
-                "description": "List members in a specific channel",
-                "operationId": "listChannelMembers",
+                "summary": "List Channel Tabs",
+                "description": "List tabs in a channel",
+                "operationId": "listChannelTabs",
                 "responses": {
                     "200": {
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/TeamMembers"
+                                    "$ref": "#/components/schemas/Tabs"
                                 }
                             }
                         },
@@ -2017,7 +2197,7 @@
                 },
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/GroupId"
+                        "$ref": "#/components/parameters/TeamId"
                     },
                     {
                         "$ref": "#/components/parameters/ChannelId"
@@ -2025,71 +2205,23 @@
                 ]
             }
         },
-        "/v1.0/teams/{groupId}/channels/{channelId}": {
-            "get": {
-                "summary": "List Channel Information",
-                "description": "List information about a specific channel",
-                "operationId": "listChannelInfo",
-                "responses": {
-                    "200": {
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Channel"
-                                }
+        "/v1.0/teams/{teamId}/clone": {
+            "post": {
+                "summary": "Clone Team",
+                "description": "Clone a team",
+                "operationId": "cloneTeam",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/CloneTeam"
                             }
-                        },
-                        "description": "SUCCESS"
+                        }
                     }
                 },
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/GroupId"
-                    },
-                    {
-                        "$ref": "#/components/parameters/ChannelId"
-                    }
-                ]
-            }
-        },
-        "/v1.0/users/{userId}/joinedTeams": {
-            "get": {
-                "summary": "List Joined Teams For User",
-                "description": "List information about teams a specific user has joined",
-                "operationId": "listJoinedTeamsForUser",
                 "responses": {
-                    "200": {
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/JoinedTeams"
-                                }
-                            }
-                        },
-                        "description": "SUCCESS"
-                    }
-                },
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/UserId"
-                    }
-                ]
-            }
-        },
-        "/v1.0/groups/{teamId}/drive/root/children": {
-            "get": {
-                "summary": "List Items In A Team Drive",
-                "description": "List information about files in a team drive",
-                "operationId": "listTeamDriveItems",
-                "responses": {
-                    "200": {
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/DriveItems"
-                                }
-                            }
-                        },
+                    "202": {
                         "description": "SUCCESS"
                     }
                 },
@@ -2124,163 +2256,29 @@
                 ]
             }
         },
-        "/v1.0/chats": {
-            "post": {
-                "summary": "Create Chat",
-                "description": "Create a new chat conversation",
-                "operationId": "createChat",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CreateGroupChat"
-                            }
-                        }
-                    },
-                    "required": true
-                },
+        "/v1.0/teams/{teamId}/members": {
+            "get": {
+                "summary": "List Team Members",
+                "description": "List members in a Team",
+                "operationId": "listTeamMembers",
                 "responses": {
                     "200": {
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/CreateChatResponse"
+                                    "$ref": "#/components/schemas/TeamMembers"
                                 }
                             }
                         },
                         "description": "SUCCESS"
                     }
-                }
-            }
-        },
-        "/v1.0/teams/": {
-            "post": {
-                "summary": "Create Team",
-                "description": "Create a new team",
-                "operationId": "createTeam",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CreateTeam"
-                            }
-                        }
-                    }                    
-                },
-                "responses": {
-                    "202": {
-                        "description": "SUCCESS"
-                    }
-                }
-            }
-        },
-        "/v1.0/teams/{teamId}/channels": {
-            "post": {
-                "summary": "Create Channel",
-                "description": "Create a new channel",
-                "operationId": "createChannel",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CreateChannel"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "SUCCESS",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CreateChannelResponse"
-                                }
-                            }
-                        }
-                    }
                 },
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/TeamId"
                     }
                 ]
-            }
-        },
-        "/v1.0/teams/{teamId}/clone": {
-            "post": {
-                "summary": "Clone Team",
-                "description": "Clone a team",
-                "operationId": "cloneTeam",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/CloneTeam"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "202": {
-                        "description": "SUCCESS"
-                    }
-                },
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/TeamId"
-                    }
-                ]
-            }
-        },
-        "/v1.0/teams/{teamId}/archive": {
-            "post": {
-                "summary": "Archive Team",
-                "description": "Archive a team",
-                "operationId": "archiveTeam",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/ArchiveTeam"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "202": {
-                        "description": "SUCCESS"
-                    }
-                },
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/TeamId"
-                    }
-                ]
-            }
-        },
-        "/v1.0/teams/{teamId}/unarchive": {
-            "post": {
-                "summary": "Unarchive Team",
-                "description": "Unarchive a team",
-                "operationId": "unarchiveTeam",                
-                "responses": {
-                    "202": {
-                        "description": "SUCCESS"
-                    }
-                },
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/TeamId"
-                    }
-                ]
-            }
-        },
-        "/v1.0/teams/{teamId}/members": {
+            },
             "post": {
                 "summary": "Add Member to Team",
                 "description": "Add a member to a team",
@@ -2314,72 +2312,36 @@
                 ]
             }
         },
-        "/v1.0/chats/{chatId}/members": {
-            "post": {
-                "summary": "Add Member to Chat",
-                "description": "Add a member to a chat",
-                "operationId": "addMemberToChat",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/AddChatMember"
-                            }
-                        }
-                    }
-                },
+        "/v1.0/teams/{teamId}/members/{membershipId}": {
+            "get": {
+                "summary": "Get Team Member",
+                "description": "Get information about a member in a Team",
+                "operationId": "getTeamMember",
                 "responses": {
-                    "201": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TeamMember"
+                                }
+                            }
+                        },
                         "description": "SUCCESS"
                     }
                 },
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/ChatId"
-                    }
-                ]
-            }
-        },
-        "/v1.0/chats/{chatId}/messages": {
-            "post": {
-                "summary": "Send Chat Message",
-                "description": "Send a message in a chat",
-                "operationId": "sendChatMessage",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/SendMessage"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "SUCCESS",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Message"
-                                }
-                            }
-                        }
-                    }
-                },
-                "parameters": [
+                        "$ref": "#/components/parameters/TeamId"
+                    },
                     {
-                        "$ref": "#/components/parameters/ChatId"
+                        "$ref": "#/components/parameters/MembershipId"
                     }
                 ]
-            }
-        },
-        "/v1.0/chats/{chatId}/members/{membershipId}": {
+            },
             "delete": {
-                "summary": "Remove Member From Chat",
-                "description": "Remove a member from a chat",
-                "operationId": "removeChatMember",
+                "summary": "Remove Member From Team",
+                "description": "Remove a member from a team",
+                "operationId": "removeTeamMember",
                 "responses": {
                     "204": {
                         "description": "SUCCESS"
@@ -2387,7 +2349,7 @@
                 },
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/ChatId"
+                        "$ref": "#/components/parameters/TeamId"
                     },
                     {
                         "$ref": "#/components/parameters/MembershipId"
@@ -2395,13 +2357,20 @@
                 ]
             }
         },
-        "/v1.0/groups/{teamId}": {
-            "delete": {
-                "summary": "Delete Team",
-                "description": "Delete a team",
-                "operationId": "deleteTeam",
+        "/v1.0/teams/{teamId}/primaryChannel": {
+            "get": {
+                "summary": "Get Primary Channel",
+                "description": "Get information about the primary channel in a team",
+                "operationId": "listPrimaryChannel",
                 "responses": {
-                    "204": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PrimaryChannel"
+                                }
+                            }
+                        },
                         "description": "SUCCESS"
                     }
                 },
@@ -2411,6 +2380,23 @@
                     }
                 ]
             }
-        }
+        },
+        "/v1.0/teams/{teamId}/unarchive": {
+            "post": {
+                "summary": "Unarchive Team",
+                "description": "Unarchive a team",
+                "operationId": "unarchiveTeam",                
+                "responses": {
+                    "202": {
+                        "description": "SUCCESS"
+                    }
+                },
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/TeamId"
+                    }
+                ]
+            }
+        }        
     }
 }
